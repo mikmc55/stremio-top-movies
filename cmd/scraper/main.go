@@ -18,9 +18,15 @@ func main() {
 	}
 
 	imdbClient := newIMDbClient()
-	rtClient := newRTclient(imdbClient)
-	imdbClient.scrapeTop250(*dataDir + "/imdb-top-250.csv")
-	imdbClient.scrapeMostPopular(*dataDir + "/imdb-most-popular.csv")
-	imdbClient.scrapeBoxOfficeUSWeekend(*dataDir + "/top-box-office-us.csv")
-	rtClient.scrapeCertifiedFreshDVDstreaming(*dataDir + "/rt-certified-fresh.csv")
+	rtClient := newRTClient(imdbClient) // Changed function name to camelCase
+
+	imdbClient.scrapeTop250(getFilePath("imdb-top-250.csv"))
+	imdbClient.scrapeMostPopular(getFilePath("imdb-most-popular.csv"))
+	imdbClient.scrapeBoxOfficeUSWeekend(getFilePath("top-box-office-us.csv"))
+	rtClient.scrapeCertifiedFreshDVDstreaming(getFilePath("rt-certified-fresh.csv"))
+}
+
+// getFilePath constructs the full file path for a given filename
+func getFilePath(filename string) string {
+	return *dataDir + "/" + filename
 }
